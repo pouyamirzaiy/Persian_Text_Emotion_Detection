@@ -1,38 +1,38 @@
 import pandas as pd
+from hazm import Normalizer, Stemmer, word_tokenize, stopwords_list, POSTagger
 
 def clean_data(df):
-    # Fill missing values for numerical columns
-    df.fillna({"Age": 29, "RoomService": 0, "FoodCourt": 0, "ShoppingMall": 0, "Spa": 0, "VRDeck": 0}, inplace=True)
+    # Initialize the normalizer, stemmer, and POS tagger
+    normalizer = Normalizer()
+    stemmer = Stemmer()
+    tagger = POSTagger(model='resources/postagger.model')
     
-    # Fill missing values for categorical columns
-    df.fillna({"HomePlanet": "Earth", "CryoSleep": False, "Destination": "TRAPPIST-1e", "VIP": False}, inplace=True)
+    # Get the list of Persian stop words
+    stopwords = stopwords_list()
     
-    # Drop the 'Name' column
-    df.drop(columns="Name", inplace=True)
+    # Function to clean, stem, and add POS tags to the text
+    def clean_text(text):
+        # Normalize the text
+        text = normalizer.normalize(text)
+        
+        # Tokenize the text
+        tokens = word_tokenize(text)
+        
+        # Remove stop words and stem the tokens
+        tokens = [stemmer.stem(token) for token in tokens if token not in stopwords]
+        
+        # Add POS tags
+        pos_tags = tagger.tag(tokens)
+        tagged_tokens = [f'{word}_{tag}' for word, tag in pos_tags]
+        
+        return ' '.join(tagged_tokens)
     
-    # Handle missing values in 'Cabin' columns
-    values = df[df["Deck"].isnull()]["Group"].tolist()
-    count = 0
-    for value in values:
-        filtered = df[df["Group"] == value][["Deck", "Num", "Side"]].dropna()
-        if not filtered.empty:
-            deck = filtered["Deck"].unique()
-            num = filtered["Num"].unique()
-            side = filtered["Side"].unique()
-            if not len(deck) > 1:
-                rows = df[df["Group"] == value]
-                rows_nan = rows[rows["Deck"].isna()].index
-                rows.loc[rows_nan, "Deck"] = deck
-                rows.loc[rows_nan, "Num"] = num
-                rows.loc[rows_nan, "Side"] = side
-                df.loc[df["Group"] == value] = rows
-                count += 1
-    df.dropna(subset=["Deck", "Num", "Side"], inplace=True)
-    print(f"The number of values cleaned is: {count}")
+    # Apply the function to the 'Text' column
+    df['Text'] = df['Text'].apply(clean_text)
     
     return df
 
 if __name__ == "__main__":
-    df = pd.read_csv('/content/train.csv')
+    df = pd.read_excel('/content/train_data.xlsx', header=None, names=["Text", "Emotion"])
     df = clean_data(df)
-    df.to_csv('/content/cleaned_train.csv', index=False)
+    df.to_csv('/content/cleaned_train_data.csv', index=False)

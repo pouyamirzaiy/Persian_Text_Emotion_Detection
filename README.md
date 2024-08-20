@@ -1,32 +1,26 @@
-# **Titanic Spaceship Dataset Analysis and Binary Classification**
+# **Persian Text Emotion Detection**
 
 ## **Project Overview**
 
-This project involves analyzing the Titanic Spaceship dataset and performing binary classification to predict whether passengers were transported or not. The project includes exploratory data analysis, data cleaning, feature engineering, model training, and evaluation.
+This project involves performing emotion detection on a collection of Persian texts categorized into five emotional classes: happiness, sadness, anger, fear, and others. The project includes data cleaning, feature engineering, model training, evaluation, and inference.
 
 ## **Libraries and Dependencies**
 
 The following libraries are used in this project:
 
-- **Warnings**: Handling warnings
-- **NumPy**: Linear algebra
 - **Pandas**: Data processing
-- **Matplotlib**: Visualization
-- **Seaborn**: Visualization
-- **Optuna**: Hyperparameter optimization
 - **Scikit-learn**: Preprocessing, model training, and evaluation
-- **XGBoost**: Extreme Gradient Boosting
+- **Hazm**: Persian text processing
+- **NLTK**: Natural language processing
+- **Matplotlib**: Visualization
 
 You can install the required libraries using the following command:
 
 ```bash
-pip install numpy pandas matplotlib seaborn optuna scikit-learn xgboost
+pip install -r requirements.txt
 ```
 
-## **Data Files**
-
-- `train.csv`: Training dataset
-- `test.csv`: Test dataset
+```
 
 ## **Project Structure**
 
@@ -34,23 +28,21 @@ pip install numpy pandas matplotlib seaborn optuna scikit-learn xgboost
   - `data_cleaning.py`: Script for data cleaning and preprocessing.
   - `feature_engineering.py`: Script for feature engineering.
   - `model_training.py`: Script for training and evaluating models.
-  - `visualizations.py`: Script for creating visualizations.
-  - `ablation_study.py`: Script for performing ablation study.
+  - `grid_search.py`: Script for performing grid search to find the best hyperparameters.
+  - `inference.py`: Script for making predictions on the test set using the trained model.
 - `notebooks/`
-  - `Titanic.ipynb`: Jupyter notebook for exploratory data analysis and model evaluation.
+  - `Emotion.ipynb`: Jupyter notebook for exploratory data analysis and model evaluation.
+- `data/`: Contains the training and test datasets.
 - `README.md`: Project overview and instructions.
-
-## **Data Exploration**
-
-The data exploration phase includes examining the distributions of numerical and categorical variables, visualizing correlations, and identifying missing values. Detailed analysis can be found in the `Titanic.ipynb` notebook.
+- `requirements.txt`: List of required libraries and their versions.
 
 ## **Data Cleaning**
 
-The data cleaning phase includes handling missing values and transforming columns for better analysis. Detailed steps can be found in the `data_cleaning.py` script.
+The data cleaning phase includes handling missing values and transforming text data for better analysis. Detailed steps can be found in the `data_cleaning.py` script.
 
 ## **Feature Engineering**
 
-Feature engineering involves encoding categorical variables into numeric values and creating new features. Detailed steps can be found in the `feature_engineering.py` script.
+Feature engineering involves vectorizing text data using TF-IDF and creating new features. Detailed steps can be found in the `feature_engineering.py` script.
 
 ## **Model Training and Evaluation**
 
@@ -68,14 +60,15 @@ Various machine learning models are trained and evaluated using different metric
 
 Detailed steps can be found in the `model_training.py` script.
 
-## **Ablation Study**
+## **Grid Search**
 
-An ablation study is performed to evaluate the impact of different features on the model's performance. Detailed steps can be found in the `ablation_study.py` script.
+Grid search is performed to find the best hyperparameters for the Random Forest model. Detailed steps can be found in the `grid_search.py` script.
 
-## **Results**
+## **Inference**
 
-The results of the model evaluation and ablation study can be found in the `Titanic.ipynb` notebook.
+The inference process involves making predictions on the test set using the trained model. Detailed steps can be found in the `inference.py` script.
 
 ## **Contact Information**
 
-If you have any questions or feedback, feel free to reach out to me at pouya.8226@gmail.come
+If you have any questions or feedback, feel free to reach out to me at pouya.8226@gmail.com
+```
